@@ -10,7 +10,7 @@ namespace WebAppWebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddMvc();
+            builder.Services.AddMvc().AddXmlSerializerFormatters();
             IBookChapterRepository repos = new SampleBookChapterRepository();
             repos.Init();
             builder.Services.AddSingleton<IBookChapterRepository>(repos);
