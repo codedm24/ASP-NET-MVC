@@ -11,9 +11,15 @@ namespace WebAppWebAPI
 
             // Add services to the container.
             builder.Services.AddMvc().AddXmlSerializerFormatters();
+            
             IBookChapterRepository repos = new SampleBookChapterRepository();
             repos.Init();
             builder.Services.AddSingleton<IBookChapterRepository>(repos);
+
+            IBookChapterRepositoryAsync reposAsync = new SampleBookChapterRepositoryAsync();
+            reposAsync.InitAsync();
+            builder.Services.AddSingleton<IBookChapterRepositoryAsync>(reposAsync);
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
