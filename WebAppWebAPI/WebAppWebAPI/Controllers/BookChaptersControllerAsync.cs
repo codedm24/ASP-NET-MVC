@@ -4,7 +4,7 @@ using WebAppWebAPI.Models;
 namespace WebAppWebAPI.Controllers
 {
     [Produces("application/json","application/xml")]
-    [Route("api/[controller]")]
+    [Route("api/BookChaptersAsync")]
     [ApiController]
     public class BookChaptersControllerAsync : Controller
     {
@@ -21,7 +21,7 @@ namespace WebAppWebAPI.Controllers
         [HttpGet("{id}", Name = nameof(GetBookChapterByIdAsync))]
         public async Task<IActionResult> GetBookChapterByIdAsync(Guid id)
         { 
-            BookChapter chapter = await _respository.FindAsync(id);
+            BookChapter? chapter = await _respository.FindAsync(id);
 
             if (chapter == null)
             {
@@ -40,6 +40,9 @@ namespace WebAppWebAPI.Controllers
                 return BadRequest();
 
             await _respository.AddAsync(chapter);
+
+            Console.WriteLine("Chapter Added");
+
             return CreatedAtRoute(nameof(GetBookChapterByIdAsync), new { id = chapter.Id }, chapter);
         }
 
