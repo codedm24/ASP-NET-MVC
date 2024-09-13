@@ -1,4 +1,4 @@
-
+using Microsoft.EntityFrameworkCore;
 using WebAppWebAPI.Models;
 
 namespace WebAppWebAPI
@@ -11,14 +11,18 @@ namespace WebAppWebAPI
 
             // Add services to the container.
             builder.Services.AddMvc().AddXmlSerializerFormatters();
-            
-            IBookChapterRepository repos = new SampleBookChapterRepository();
-            repos.Init();
-            builder.Services.AddSingleton<IBookChapterRepository>(repos);
 
-            IBookChapterRepositoryAsync reposAsync = new SampleBookChapterRepositoryAsync();
-            reposAsync.InitAsync();
-            builder.Services.AddSingleton<IBookChapterRepositoryAsync>(reposAsync);
+            //IBookChapterRepository repos = new SampleBookChapterRepository();
+            //repos.Init();
+            //builder.Services.AddSingleton<IBookChapterRepository>(repos);
+
+            //IBookChapterRepositoryAsync reposAsync = new SampleBookChapterRepositoryAsync();
+            //reposAsync.InitAsync();
+            //builder.Services.AddSingleton<IBookChapterRepositoryAsync>(reposAsync);
+
+            builder.Services.AddDbContext<BooksContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BookConnection")));
+
+            builder.Services.AddScoped<IBookChapterRepositoryAsync, BookChapterRepositoryDB>();
 
 
             builder.Services.AddControllers();
@@ -30,7 +34,7 @@ namespace WebAppWebAPI
             //startup.ConfigureServices(builder.Services)
 
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

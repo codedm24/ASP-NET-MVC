@@ -24,9 +24,12 @@ namespace BookServiceClientApp
             WriteLine(nameof(ReadChaptersAsync));
             var client = new BookChapterClient(Addresses.BaseAddress);
             IEnumerable<BookChapter>? chapters = await client.GetAllAsync(Addresses.BooksApi);
-            foreach (BookChapter chapter in chapters)
-            { 
-                WriteLine(chapter.Title);
+            if (chapters != null)
+            {
+                foreach (BookChapter chapter in chapters)
+                {
+                    WriteLine(chapter.Title);
+                }
             }
             WriteLine();
         }
@@ -88,7 +91,7 @@ namespace BookServiceClientApp
             WriteLine(nameof (UpdateChapterAsync));
             var client = new BookChapterClient(Addresses.BaseAddress);
             var chapters = await client.GetAllAsync(Addresses.BooksApi);
-            var chapter = chapters.SingleOrDefault(c => c.Title == "Windows Store App");
+            var chapter = chapters?.SingleOrDefault(c => c.Title == "ASP.NET Web API");
             if (chapter != null) {
                 chapter.Number = 32;
                 chapter.Title = "Windows Apps";
@@ -103,7 +106,7 @@ namespace BookServiceClientApp
             WriteLine(nameof(RemoveChapterAsync));
             var client = new BookChapterClient(Addresses.BaseAddress);
             var chapters = await client.GetAllAsync(Addresses.BooksApi);
-            var chapter = chapters?.SingleOrDefault(c => c.Title == "ASP.NET Web Forms");
+            var chapter = chapters?.SingleOrDefault(c => c.Title == "Windows Apps");
             if (chapter != null)
             {
                 await client.DeleteAsync(Addresses.BooksApi + chapter.Id);
