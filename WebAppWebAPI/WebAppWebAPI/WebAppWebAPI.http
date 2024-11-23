@@ -2,5 +2,4 @@
 
 GET {{WebAppWebAPI_HostAddress}}/weatherforecast/
 Accept: application/json
-
 ###

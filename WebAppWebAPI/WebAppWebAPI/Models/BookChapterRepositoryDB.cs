@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAppWebAPI.Models
 {
-    public class BookChapterRepositoryDB : IBookChapterRepositoryAsync, IDisposable
+    public class BookChapterRepositoryDB : IBookChapterRepository, IDisposable
     {
         private BooksContext _booksContext;
 
@@ -17,32 +17,32 @@ namespace WebAppWebAPI.Models
             _booksContext?.Dispose();
         }
 
-        public Task InitAsync()
+        public void Init()
         {
-            return Task.FromResult<object?>(null);
+            //return Task.FromResult<object?>(null);
         }
 
-        public async Task AddAsync(BookChapter chapter)
+        public void Add(BookChapter chapter)
         {
             _booksContext.Add(chapter);
-            await _booksContext.SaveChangesAsync();
+            _booksContext.SaveChanges();
         }
 
-        public async Task<BookChapter?> RemoveAsync(Guid id)
+        public BookChapter? Remove(Guid id)
         {
-            BookChapter? chapter = await _booksContext.Chapters.SingleOrDefaultAsync<BookChapter>(c => c.Id == id);
+            BookChapter? chapter = _booksContext.Chapters.SingleOrDefault<BookChapter>(c => c.Id == id);
             if(chapter == null)
                 return null;
             _booksContext.Chapters.Remove(chapter);
-            await _booksContext.SaveChangesAsync();
+            _booksContext.SaveChanges();
             return chapter;
         }
 
-        public async Task<IEnumerable<BookChapter>> GetAllAsync() => await _booksContext.Chapters.ToListAsync<BookChapter>();
+        public IEnumerable<BookChapter> GetAll() => _booksContext.Chapters.ToList<BookChapter>();
 
-        public async Task<BookChapter?> FindAsync(Guid id) => await _booksContext.Chapters.SingleOrDefaultAsync(c => c.Id == id);
+        public BookChapter? Find(Guid id) => _booksContext.Chapters.SingleOrDefault(c => c.Id == id);
 
-        public async Task<object?> UpdateAsync(BookChapter chapter)
+        public void Update(BookChapter chapter)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace WebAppWebAPI.Models
                 //if (existingEntity != null)
                 //    _booksContext.Entry(existingEntity).State = EntityState.Detached;
 
-                BookChapter? chapterToUpdate = await FindAsync(chapter.Id);
+                BookChapter? chapterToUpdate = Find(chapter.Id);
 
                 if (chapterToUpdate != null)
                 {
@@ -58,15 +58,15 @@ namespace WebAppWebAPI.Models
                     chapterToUpdate.Title = chapter.Title;
                     chapterToUpdate.Pages = chapter.Pages;
                     _booksContext.Chapters.Update(chapterToUpdate);
-                    int returnVal = await _booksContext.SaveChangesAsync();
+                    int returnVal = _booksContext.SaveChanges();
                 }
             }
             catch (Exception)
             {
-               return null;
+               return;
             }
 
-            return Task.FromResult<object?>(null);
+            return;
         }
     }
 }

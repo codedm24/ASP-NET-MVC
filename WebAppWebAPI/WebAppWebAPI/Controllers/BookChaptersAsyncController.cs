@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using WebAppWebAPI.Models;
 
 namespace WebAppWebAPI.Controllers
@@ -6,11 +7,12 @@ namespace WebAppWebAPI.Controllers
     [Produces("application/json","application/xml")]
     [Route("api/BookChaptersAsync")]
     [ApiController]
-    public class BookChaptersControllerAsync : Controller
+    [EnableCors("AllowAllOrigin")]
+    public class BookChaptersAsyncController : Controller
     {
         private readonly IBookChapterRepositoryAsync _respository;
 
-        public BookChaptersControllerAsync(IBookChapterRepositoryAsync respository)
+        public BookChaptersAsyncController(IBookChapterRepositoryAsync respository)
         {
             _respository = respository;
         }
