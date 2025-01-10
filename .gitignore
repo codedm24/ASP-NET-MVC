@@ -6,7 +6,8 @@
 .vs/
 obj/
 bin/
-
+lib/
+node_modules/
 # Ignore other temporary files
 *.user
 *.suo
