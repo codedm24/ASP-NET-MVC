@@ -2,7 +2,15 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/ASPNetCoreIntro/.vs
-/ASPNetCoreIntro/ASPNetCoreIntro/bin
-/ASPNetCoreIntro/ASPNetCoreIntro/obj
-/ASPNetCoreIntro/node_modules
+# Ignore .vs and obj folders
+.vs/
+obj/
+bin/
+
+# Ignore other temporary files
+*.user
+*.suo
+*.userosscache
+*.userprefs
+*.tmp
+*.log
